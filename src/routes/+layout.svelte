@@ -9,7 +9,7 @@
 		<!-- App Bar -->
 		<AppBar>
 			<svelte:fragment slot="lead">
-				<strong class="text-xl uppercase">Skeleton</strong>
+				<strong class="text-xl uppercase">Proactive Financial Solutions 360</strong>
 			</svelte:fragment>
 			<svelte:fragment slot="trail">
 				<a
@@ -44,8 +44,8 @@
 	<!-- Insert the list: -->
 	<nav class="list-nav">
 		<ul>
-			<li><a href="/">Home</a></li>
-			<li><a href="/about">About</a></li>
+			<li><a href="/">Dashboard</a></li>
+			<li><a href="/clients">Clients</a></li>
 		</ul>
 	</nav>
 	<!-- --- -->
