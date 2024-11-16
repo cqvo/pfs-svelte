@@ -1,56 +1,57 @@
-<script>
+<script lang="ts">
 	import '../app.postcss';
-	import { AppShell, AppBar } from '@skeletonlabs/skeleton';
+	import { AppBar, AppRail, AppRailTile, AppRailAnchor } from '@skeletonlabs/skeleton';
+	import { page } from '$app/stores';
+	import { Drawer, getDrawerStore } from '@skeletonlabs/skeleton';
+	import type { DrawerSettings, DrawerStore } from '@skeletonlabs/skeleton';
+	import { initializeStores } from '@skeletonlabs/skeleton';
+	initializeStores();
+	const drawerStore = getDrawerStore();
+
+	import LucideHome from '~icons/lucide/home';
+	import LucideLayoutDashboard from '~icons/lucide/layout-dashboard';
+	import LucideAlignJustify from '~icons/lucide/align-justify';
+	import LucideUsers from '~icons/lucide/users';
+
+	const triggerLeftNav = () => {
+		const drawerSettings: DrawerSettings = {
+			id: 'leftNav',
+			position: 'left',
+			width: '100%',
+		}
+		drawerStore.open(drawerSettings);
+	}
 </script>
-
-<!-- App Shell -->
-<AppShell slotSidebarLeft="bg-surface-500/5 w-56 p-4">
-	<svelte:fragment slot="header">
-		<!-- App Bar -->
-		<AppBar>
-			<svelte:fragment slot="lead">
-				<strong class="text-xl uppercase">Proactive Financial Solutions 360</strong>
-			</svelte:fragment>
-			<svelte:fragment slot="trail">
-				<a
-					class="btn btn-sm variant-ghost-surface"
-					href="https://discord.gg/EXqV7W8MtY"
-					target="_blank"
-					rel="noreferrer"
-				>
-					Discord
-				</a>
-				<a
-					class="btn btn-sm variant-ghost-surface"
-					href="https://twitter.com/SkeletonUI"
-					target="_blank"
-					rel="noreferrer"
-				>
-					Twitter
-				</a>
-				<a
-					class="btn btn-sm variant-ghost-surface"
-					href="https://github.com/skeletonlabs/skeleton"
-					target="_blank"
-					rel="noreferrer"
-				>
-					GitHub
-				</a>
-			</svelte:fragment>
+<Drawer>
+	{#if $drawerStore.id === 'leftNav'}
+		<AppRail>
+			<AppRailAnchor href="/" selected={$page.url.pathname === '/'}>
+				<LucideLayoutDashboard class="btn-icon"/> Dashboard
+			</AppRailAnchor>
+			<AppRailAnchor href="/clients" selected={$page.url.pathname === '/clients'}>
+				<LucideUsers class="btn-icon"/> Clients
+			</AppRailAnchor>
+		</AppRail>
+		{/if}
+</Drawer>
+<div class="grid h-screen grid-rows-[auto_1fr_auto]">
+	<!-- Header -->
+	<header class="">
+		<AppBar gridColumns="grid-cols-3" slotDefault="place-self-center" slotTrail="place-content-end">
+			<button class="btn-icon variant-filled" slot="lead" on:click={() => {triggerLeftNav(); }}>
+				<LucideAlignJustify />
+			</button>
+			<h1>PFS 360</h1>
 		</AppBar>
-	</svelte:fragment>
+	</header>
+	<!-- Grid Columns -->
+	<div class="grid grid-cols-1 md:grid-cols[auto_1fr]">
+		<!-- Main Content -->
+		<main class="space-y-4 p-4">
+			<slot />
+		</main>
 
-<svelte:fragment slot="sidebarLeft">
-	<!-- Insert the list: -->
-	<nav class="list-nav">
-		<ul>
-			<li><a href="/">Dashboard</a></li>
-			<li><a href="/clients">Clients</a></li>
-		</ul>
-	</nav>
-	<!-- --- -->
-</svelte:fragment>
-
-	<!-- Page Route Content -->
-	<slot />
-</AppShell>
+	</div>
+	<!-- Footer -->
+	<footer></footer>
+</div>
